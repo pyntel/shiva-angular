@@ -8,13 +8,10 @@
 
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
         <script type="text/javascript">
-            function ArtistsController($scope) {
-                $scope.artists = [
-                    {'name': 'NOFX'},
-                    {'name': 'MXPX'},
-                    {'name': 'Oasis'},
-                    {'name': 'Backstreet boys'}
-                ]
+            function ArtistsController($scope, $http) {
+                $http.get('/api/artists').success(function (data) {
+                    $scope.artists = data;
+                });
             }
         </script>
 
@@ -24,6 +21,32 @@
             }
             div.row-fluid div {
                 background-color: #DDD;
+                margin-bottom: 1em;
+                clear: right;
+                float: left;
+            }
+
+            .artists .artist {
+                height: 270px;
+                width: 264px;
+                float: left;
+                margin: 1em;
+            }
+
+            .artists .artist a {
+                max-height: 270px;
+            }
+
+            .artists .artist a img {
+                border-radius: 4px;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                max-height: 230px;
+                max-width: 254px;
+            }
+
+            ul {
+                list-style: none;
             }
         </style>
     </head>
@@ -33,10 +56,11 @@
             Shiva
         </h1>
 
-        <div class="row-fluid">
-            <div class="span3" ng-repeat="artist in artists">
-                {{ artist.name }}
-            </div>
-        </div>
+        <ul class="artists">
+            <li ng-repeat="artist in artists" class="artist">
+                <a href="#"><img ng-src="{{ artist.image }}"></a>
+                <a href="#">{{ artist.name }}</a>
+            </li>
+        </ul>
     </body>
 </html>
